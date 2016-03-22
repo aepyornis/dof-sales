@@ -1,0 +1,1 @@
+Borough,Neighborhood,BuildingClassCategory,TaxClassAtPresent,Block,Lot,EaseMent,BuildingClassAtPresent,Address,ApartmentNumber,ZipCode,ResidentialUnits,CommercialUnits,TotalUnits,LandSquareFeet,GrossSquareFeet,YearBuilt,TaxClassAtTimeOfSale,BuildingClassAtTimeOfSale,SalePrice,SaleDate
