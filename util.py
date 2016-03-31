@@ -17,7 +17,7 @@ def date_format(datestring):
 
 def type_cast(key, val, lookup):
     datatype = lookup[key].strip()
-    if key == 'SaleCount':
+    if key in ['SaleCount', 'SalePriceFlag', 'BuildingClassCatShort', 'BuildingClassCatFlag', 'SalePriceBuildingCatFlag']:
         return val
     elif val.strip() == '':
         return None

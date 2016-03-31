@@ -22,5 +22,11 @@ create table sales (
   SaleDate date,
   bbl char(10),
   SaleCount smallint,
+  SalePriceFlag smallint,
+  CounterId smallint,
+  BBLSalePriceFlag smallint,
+  BuildingClassCatShort smallint,
+  BuildingClassCatFlag smallint,
+  SalePriceBuildingCatFlag smallint,
   id serial PRIMARY KEY
 )
