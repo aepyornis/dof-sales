@@ -21,5 +21,6 @@ create table sales (
   SalePrice bigint,
   SaleDate date,
   bbl char(10),
+  SaleCount smallint,
   id serial PRIMARY KEY
 )

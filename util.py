@@ -17,13 +17,15 @@ def date_format(datestring):
 
 def type_cast(key, val, lookup):
     datatype = lookup[key].strip()
-    if val.strip() == '':
+    if key == 'SaleCount':
+        return val
+    elif val.strip() == '':
         return None
     elif datatype == 'text':
         return val.strip()
     elif 'char' in datatype:
         return val.strip()
-    elif datatype == 'integer' or datatype == 'bigint':
+    elif datatype == 'integer' or datatype == 'bigint' or datatype == 'smallint':
         return int(val.strip())
     elif datatype == 'money':
         return val.strip().replace('$', '')
@@ -47,11 +49,14 @@ def lot_length_helper(lot):
 
 
 def bbl(boro, block, lot):
-    if len(boro) != 1:
+    if boro == '' and lot == '' and block == '':
+        return 'blank'
+    elif len(boro) != 1:
         raise ValueError("Borough, " + boro + " is longer than one char")
-    updated_lot = lot_length_helper(lot)
-    bbl =  boro + block.zfill(5) + updated_lot
-    return bbl
+    else:
+        updated_lot = lot_length_helper(lot)
+        bbl =  boro + block.zfill(5) + updated_lot
+        return bbl
 
 
 def sql_type_dir(sql_file):
@@ -100,4 +105,6 @@ def sql_type_dir(sql_file):
                 val = ' '.join(line.strip().replace(',', '').split(' ')[1:])
                 d[key] = val
     return d
+
+
 
