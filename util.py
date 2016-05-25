@@ -105,6 +105,3 @@ def sql_type_dir(sql_file):
                 val = ' '.join(line.strip().replace(',', '').split(' ')[1:])
                 d[key] = val
     return d
-
-
-

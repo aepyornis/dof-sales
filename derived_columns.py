@@ -10,12 +10,14 @@ def sale_price_flag(row):
     else:
         return 0
 
+
 def add_sale_price_flag(row):
     row['SalePriceFlag'] = sale_price_flag(row)
 
 
 def add_bbl_count(row, count_map):
     row['SaleCount'] = count_map[row['bbl']]
+
 
 def add_bldg_class_cat_short(row):
     bldg_class = row['BuildingClassCategory']
@@ -60,6 +62,7 @@ def add_bbl_sp_flag(row):
         row['BBLSalePriceFlag'] = 1
     else:
         row['BBLSalePriceFlag'] = 0
+
 
 def add_bbl_sp_bldg_cat_flag(row):
     if row['SalePriceFlag'] == 1 and row['CounterId'] == 1 and row['BBLSalePriceFlag'] == 1:
