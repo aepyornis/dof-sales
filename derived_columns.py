@@ -78,7 +78,7 @@ def counter_id(rows):
         else:
             sales = [x for x in rows if x['bbl'] == row['bbl']]
             sorted_sales = sorted(sales, key=lambda k: k['SalePrice'], reverse=True)
-            dates = [row['SaleDate'] for row in sorted_sales]
+            dates = [r['SaleDate'] for r in sorted_sales]
             row['CounterId'] = (dates.index(row['SaleDate']) + 1)
     return rows
 

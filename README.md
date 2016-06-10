@@ -30,10 +30,6 @@ Install Python3 requirement: psycopg2 via pip (globally or in a virtual environm
 
  ``` pip install psycopg2 ```
 
-Export the connection environment variable:
-
-``` export DOF_SALES_DB_CONNECTION='dbname=databaseName user=pgusername' ```
-
 Create database if needed:
 
 ```
@@ -43,7 +39,7 @@ createdb datebaseName
 #### Insert the files into the db:
 
 ```
-python3 insert_data.py path/to/dir/with/dof/csv/files
+python3 insert_data.py path/to/dir/with/dof/csv/files "dbname=databaseName user=pgusername"
 ```
 
 #### Double check the problem lines. 
@@ -88,4 +84,3 @@ order of sales in ranking:
 *SalePriceBuildingCatFlag*
 
 1 - highest non-zero sale (1) and buildingClassCatFlag is 1
-

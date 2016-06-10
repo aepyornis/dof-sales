@@ -1,3 +1,7 @@
+"""
+Inserts DOF rolling sales data into postgres
+use: python3 insert_data.py path/to/csv/dir/ "dbname=your_db_name user=your_pg_username"
+"""
 import util
 import derived_columns
 import os
@@ -7,8 +11,8 @@ import glob
 import copy
 import psycopg2
 
-db_connection_string = os.environ['DOF_SALES_DB_CONNECTION']
 csv_dir = sys.argv[1]
+db_connection_string = sys.argv[2]
 
 conn = psycopg2.connect(db_connection_string)
 cur = conn.cursor()
@@ -134,7 +138,8 @@ if __name__ == "__main__":
     for csv_file in csv_file_list(csv_dir):
         print('processing ' + csv_file)
         rows = file_to_list(csv_file)
-        rows_with_counter_id = derived_columns.counter_id(rows)
+        rows_without_duplicates = derived_columns.remove_duplicate_sales_on_same_day(rows)
+        rows_with_counter_id = derived_columns.counter_id(rows_without_duplicates)
         rows_with_sp_flag = derived_columns.bbl_sp_flag(rows_with_counter_id)
         for row in rows_with_sp_flag:
             insert_row(row)
