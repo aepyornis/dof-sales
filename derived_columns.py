@@ -1,4 +1,5 @@
 import util
+from collections import Counter
 
 def add_bbl(row):
    row['bbl'] = util.bbl(row['Borough'], row['Block'], row['Lot']) 
@@ -42,6 +43,31 @@ def add_derived_columns(row, count_map):
     add_bldg_class_flag(row)
 
 
+def highest_sale_for_that_day(rows, row):
+   that_days_sales = [x for x in rows if x['SaleDate'] == row['SaleDate'] and x['bbl'] == row['bbl']]
+   return sorted(that_days_sales, key=lambda k: k['SalePrice'], reverse=True)[0]['SalePrice']
+
+
+def remove_duplicate_sales_on_same_day(rows):
+   """
+   Some tax lots, for whatever reason, contain multiple sales listed for the same day.
+   This function picks the highest price sale for that day and removes the rest.
+   """
+   already_in = set()
+
+   def approve_highest(row):
+      if (row['bbl'], row['SalePrice'], row['SaleDate']) in already_in:
+         return False
+      else:
+         if row['SalePrice'] == highest_sale_for_that_day(rows, row):
+            already_in.add((row['bbl'], row['SalePrice'], row['SaleDate']))
+            return True
+         else:
+            return False
+   
+   return list(filter(approve_highest, rows))
+
+   
 # if there is only one sale, counter id is 1
 # if there is more than one sale, counter id is the ranking in order of the sales by sale price
 # where 1 is the highest price.
