@@ -28,7 +28,7 @@ or use the helper bash script (run this in the same dir with the xls files)
 
 Install Python3 requirement: psycopg2 via pip (globally or in a virtual environment):
 
- ``` pip install psycopg2 ```
+ ``` pip3 install psycopg2 ```
 
 Create database if needed:
 
@@ -87,4 +87,4 @@ order of sales in ranking:
 
 ### Data source
 
-[http://www1.nyc.gov/site/finance/taxes/property-rolling-sales-data.page](NYC - DOF)
+[NYC - DOF](http://www1.nyc.gov/site/finance/taxes/property-rolling-sales-data.page)
