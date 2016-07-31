@@ -84,3 +84,7 @@ order of sales in ranking:
 *SalePriceBuildingCatFlag*
 
 1 - highest non-zero sale (1) and buildingClassCatFlag is 1
+
+### Data source
+
+[http://www1.nyc.gov/site/finance/taxes/property-rolling-sales-data.page](NYC - DOF)
