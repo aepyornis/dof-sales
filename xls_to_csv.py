@@ -1,12 +1,16 @@
 """
 Converts xls to csv
+
 use: python3 xls_to_csv.py /path/to/dir/with/xls outfile.csv
+
+to write to stdout instead of a file use:  '-' or  'STDOUT' 
 """
 import xlrd
 import sys
 import csv
 import glob
 import os
+
 
 def cell_converter(cell):
     if cell.ctype == 0:
@@ -36,7 +40,6 @@ def bbl_helper(boro, block, lot):
 # input: <csvwriter>, str
 def file_to_csv(csvwriter, xls_path):
     book = xlrd.open_workbook(xls_path)
-    print("Processing: {0}".format(book.sheet_names()[0]))
     sheet = book.sheet_by_index(0)
     rows = sheet.get_rows()
     for x in range(5):
@@ -47,11 +50,19 @@ def file_to_csv(csvwriter, xls_path):
         csvwriter.writerow(row + bbl_helper(*row_bbl))
 
 
+def process_xls_dir(csvwriter):
+    for xls in glob.glob(os.path.join(xls_dir_path, '*.xls')):
+        file_to_csv(csvwriter, xls)
+
+
 def main():
-    with open(out_file_path, 'w') as f:
-        csvwriter = csv.writer(f, delimiter=',', quotechar='"')
-        for xls in glob.glob(os.path.join(xls_dir_path, '*.xls')):
-            file_to_csv(csvwriter, xls)
+    if out_file_path == '-' or out_file_path.upper() == 'STDOUT':
+        csvwriter = csv.writer(sys.stdout, delimiter=',', quotechar='"')
+        process_xls_dir(csvwriter)
+    else:
+        with open(out_file_path, 'w') as f:
+            csvwriter = csv.writer(f, delimiter=',', quotechar='"')
+            process_xls_dir(csvwriter)
 
 if __name__ == '__main__':
     xls_dir_path = sys.argv[1]
