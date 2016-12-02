@@ -3,3 +3,4 @@ __pycache__/
 venv/
 problem_lines.csv
 *.html
+env.sh

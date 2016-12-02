@@ -1,6 +1,4 @@
-drop table if exists dof_sales;
-
-create table dof_sales (
+create table sales (
   Borough char(1),
   Neighborhood text,
   BuildingClassCategory text,
@@ -23,5 +21,14 @@ create table dof_sales (
   SalePrice bigint,
   SaleDate date,
   bbl char(10),
+  SaleCount smallint,
+  SalePriceFlag smallint,
+  CounterId smallint,
+  BBLSalePriceFlag smallint,
+  BuildingClassCatShort smallint,
+  BuildingClassCatFlag smallint,
+  SalePriceBuildingCatFlag smallint,
   id serial PRIMARY KEY
-);
+)
+
+COPY dof_sales FROM STDIN WITH (FORMAT CSV, HEADER FALSE);
