@@ -1,12 +1,12 @@
 # dof-sales
 
-### Requirements
+Inserts NYC Department of Finance Rolling sales data into postgres.
 
-* Python3
-* Postgres
-* xls2csv
+**Note:** In December 2016, I added a more straight-forward way to add the data to postgres without much processing in  python. This version (see: to_postgres.sh) doesn't add the extra flags from the previous version, but it is less error prone and doesn't require catdoc/xls2csv. 
 
-### Instructions:
+See [nyc-db](https://github.com/aepyornis/nyc-db) for more detailed instructions on how to build a postgres database filled with many NYC housing datasets. 
+
+### Old Instructions:
 
 #### Convert the xls files into csvs using xls2csv
 
@@ -18,7 +18,7 @@ Individually convert them:
 ```
 xls2csv dof_sales_file.xls
 ```
-or use the helper bash script (run this in the same dir with the xls files)
+Theor use the helper bash script (run this in the same dir with the xls files)
 
 ```
 ./batch_convert_to_csv.sh 
