@@ -10,7 +10,7 @@ import sys
 import csv
 import glob
 import os
-
+from type_info import type_info
 
 def cell_converter(cell):
     if cell.ctype == 0:
@@ -37,6 +37,46 @@ def bbl_helper(boro, block, lot):
     return (boro + block.zfill(5) + lot.zfill(4), )
 
 
+def int_helper(x):
+    """
+    Converts input to integer. Value can contain '-' instead of null.
+    """
+    if x == '-' or x is None:
+        return None
+    else:
+        return int(x)
+
+
+def type_caster(row):
+    """
+    converts rows into correct type
+    """
+    out = []
+    for index, val in enumerate(row):
+        if type_info[index][1] == 'int':
+            out.append(int_helper(val))
+        else:
+            out.append(val)
+    return out
+
+
+def add_bbl_to_row(row):
+    bbl = (row[0], row[4], row[5])
+    return row + bbl_helper(*bbl)
+
+
+def process_row(r):
+    """
+    Prepares row for file writing by doing three things:
+      1) converts from xlrd object to normal python data type
+      2) adds bbl
+      3) type converting (checks if integer)
+    """
+    row = tuple(map(cell_converter, r))
+    row_with_bbl = add_bbl_to_row(row)
+    return type_caster(row_with_bbl)
+
+
 # input: <csvwriter>, str
 def file_to_csv(csvwriter, xls_path):
     book = xlrd.open_workbook(xls_path)
@@ -45,26 +85,26 @@ def file_to_csv(csvwriter, xls_path):
     for x in range(5):
         next(rows) # remove first five rows
     for r in rows:
-        row = tuple(map(cell_converter, r))
-        row_bbl = (row[0], row[4], row[5])
-        csvwriter.writerow(row + bbl_helper(*row_bbl))
+        csvwriter.writerow(process_row(r))
 
 
-def process_xls_dir(csvwriter):
+def process_xls_dir(csvwriter, xls_dir_path):
+    """
+    input: <csv.writer>, str
+    Calls file_to_csv for each xls file in the directory
+    """
     for xls in glob.glob(os.path.join(xls_dir_path, '*.xls')):
         file_to_csv(csvwriter, xls)
 
 
-def main():
+def main(xls_dir_path, out_file_path):
     if out_file_path == '-' or out_file_path.upper() == 'STDOUT':
         csvwriter = csv.writer(sys.stdout, delimiter=',', quotechar='"')
-        process_xls_dir(csvwriter)
+        process_xls_dir(csvwriter, xls_dir_path)
     else:
         with open(out_file_path, 'w') as f:
             csvwriter = csv.writer(f, delimiter=',', quotechar='"')
-            process_xls_dir(csvwriter)
+            process_xls_dir(csvwriter, xls_dir_path)
 
 if __name__ == '__main__':
-    xls_dir_path = sys.argv[1]
-    out_file_path = sys.argv[2]
-    main()
+    main(sys.argv[1], sys.argv[2])
