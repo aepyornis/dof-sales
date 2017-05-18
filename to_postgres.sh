@@ -1,7 +1,13 @@
 #!/bin/bash
 # use: bash to_postgres.sh "path/to/xls/dir" 
+set -eu
 
 source ./env.sh
+
+if [[ -d venv ]];then
+    source venv/bin/activate
+fi
+
 
 execute_sql schema.sql
 
