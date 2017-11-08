@@ -41,11 +41,17 @@ def int_helper(x):
     """
     Converts input to integer. Value can contain '-' instead of null.
     """
-    if x == '-' or x is None:
+    try:
+        if x == '-' or x is None or x.strip() == '':
+            return None
+        elif isinstance(x, int):
+            return x
+        elif '.' in x:
+            return int(x.split('.')[0])
+        else:
+            return int(x)
+    except ValueError:
         return None
-    else:
-        return int(x)
-
 
 def type_caster(row):
     """
