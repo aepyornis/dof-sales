@@ -42,10 +42,10 @@ def int_helper(x):
     Converts input to integer. Value can contain '-' instead of null.
     """
     try:
-        if x == '-' or x is None or x.strip() == '':
-            return None
-        elif isinstance(x, int):
+        if isinstance(x, int):
             return x
+        elif x == '-' or x is None or x.strip() == '':
+            return None
         elif '.' in x:
             return int(x.split('.')[0])
         else:
